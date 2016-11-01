@@ -75,13 +75,16 @@ swapon /dev/vg1/swap
 # TODO Append other packages to be installed
 pacstrap /mnt \
     adobe-source-code-pro-fonts \
+    atom \
     base \
     base-devel \
+    gradle \
     grub \
     gtkmm \
     # kde-applications-meta?
     kde-l10n-de \
     lvm2 \
+    maven \
     nfs-utils \
     open-vm-tools \
     openssh \
@@ -115,8 +118,16 @@ yaourt \
 
 # Generate fstab using UUIDs
 genfstab -U /mnt >> /mnt/etc/fstab
-echo "192.168.0.9:/mnt/FatLady/Shared\040Folders /mnt/Share/ nfs noauto,retry=0,rw,soft,user 0 0" >> /mnt/etc/fstab 
+echo ".host:/Daten /mnt/Daten fuse.vmhgfs-fuse defaults,allow_other 0 0" >> /mnt/etc/fstab
+echo ".host:/Windows /mnt/Windows fuse.vmhgfs-fuse defaults,allow_other 0 0" >> /mnt/etc/fstab
+echo "192.168.0.9:/mnt/FatLady/Shared\040Folders /mnt/Share/ nfs noauto,retry=0,rw,soft,user 0 0" >> /mnt/etc/fstab
 echo "192.168.0.9:/mnt/FatLady/User\040Folders/tim /mnt/Homes/tim/ nfs noauto,retry=0,rw,soft,user 0 0" >> /mnt/etc/fstab
+
+# Create mount points
+mkdir -p /mnt/mnt/Daten
+mkdir -p /mnt/mnt/Windows
+mkdir -p /mnt/mnt/Homes/tim
+mkdir -p /mnt/mnt/Share
 
 # Change root into the new system
 arch-chroot /mnt
@@ -187,6 +198,10 @@ passwd gremplewski
 # Configure boot loader
 grub-install --target=i386-pc /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
+
+# Set global environment variables
+echo "JAVA_HOME=/usr/lib/jvm/default" >> /etc/environment
+echo "GRADLE_HOME=/usr/share/java/gradle" >> /etc/environment
 
 # Enable dhcp client
 systemctl enable dhcpcd.service
