@@ -41,4 +41,5 @@ yaourt \
     google-chrome \
     jdk \
     oh-my-zsh-git \
+    samsung-unified-driver \
     spotify
