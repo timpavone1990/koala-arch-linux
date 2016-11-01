@@ -11,3 +11,5 @@ timedatectl set-ntp true
 
 # Update the system
 pacman -Syu
+
+# Set fonts in KDE settings

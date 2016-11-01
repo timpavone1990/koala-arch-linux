@@ -33,6 +33,8 @@ echo "arch01" > /etc/hostname
 # Create a new initial RAM disk
 mkinitcpio -p linux
 
+# EDIT /etc/default/grub for right resolution
+
 # Configure boot loader
 grub-install --target=i386-pc /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
