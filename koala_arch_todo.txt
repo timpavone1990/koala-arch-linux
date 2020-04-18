@@ -1,0 +1,66 @@
+- https://www.reddit.com/r/kde/comments/3pse8f/plasma_5_cursor_icon_changes_to_the_kde_classic/
+- Kann nicht auf es-home-share zugreifen
+- Bei Zugriff auf es-share stürzt dolphin ab
+- mirrors service wird nicht richtig angelegt
+- ulimit für alle user setzen (*), nicht nur fs5
+- oh-my-zsh plugins: npm, node
+- ~/.config/autostart kopieren
+- ~/.config/chrome-flags.conf kopieren
+- aurman pgp key importieren (siehe auch Server skript): gpg --recv-keys 465022E743D71E39
+
+- Maven settings.xml
+-- enthält "tim" in Pfaden
+-- Passwort aktualisiert
+
+- Globale settings.xml in /opt/maven/conf anpassen, sodass globales Repository z.B. in /var/lib/maven/repository verwendet wird
+-- User zu einer neuen Gruppe "maven" hinzufügen, die Schreibrechte auf das globale Repository hat
+-- Repository-Pfad in settings.xml der User entfernen
+
+- mirrors.service anpassen, sodass die beiden Kommandos in separate ExecStart Direktiven landen
+
+- Gruppen für Nutzer gremplewski
+-- docker
+-- kvm
+
+- Swapiness auf 10 setzen: https://wiki.archlinux.org/index.php/swap#Swappiness
+- fstab (u.a smb shares)
+- "GSSAPIAuthentication yes" in /etc/ssh/ssh_config eintragen
+- In /etc/dhcpcd.conf client auskommentieren und duid einkommentieren. Siehe: https://wiki.archlinux.org/index.php/dhcpcd#DHCP_Client_Identifier
+- https://confluence.jetbrains.com/display/IDEADEV/Inotify+Watches+Limit
+
+- nano
+-- Syntax Highlighting: https://wiki.archlinux.org/index.php/nano#Syntax_highlighting
+-- "set nowrap" in /etc/nanorc auskommentieren
+
+- Zu installierende Packages:
+-- bind-tools
+-- davfs2
+-- discover
+-- docker
+-- docker-compose
+-- freerdp
+-- gimp
+-- libreoffice-still-de
+-- networkmanager-openconnect (??? Für VPN-Verbindung zur FernUni)
+-- p7zip
+-- qemu
+-- unrar
+-- unzip
+-- zip
+
+- Zu installierende AUR Packages:
+-- docker-machine-kvm
+-- minikube
+-- kubectl-bin
+-- visual-studio-code
+
+- Zu startende Services
+-- libvirtd.service (?)
+
+- ssh-agent beim Start aktivieren, damit ssh Passwörter nur 1x pro Session eingegeben werden müssen
+    - https://wiki.archlinux.org/index.php/SSH_keys#ssh-agent --> Start ssh-agent with systemd user
+        - "AddKeysToAgent yes" eintragen in /etc/ssh/ssh_config eintragen
+        - Service Unit anlegen
+        - "SSH_AUTH_SOCK DEFAULT="${XDG_RUNTIME_DIR}/ssh-agent.socket"" in /etc/security/pam_env.conf eintragen
+
+- Chromium anstatt Chrome aus AUR installieren

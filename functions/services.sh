@@ -1,0 +1,3 @@
+function enableServices() {
+    systemctl enable "$@"
+}

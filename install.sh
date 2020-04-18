@@ -1,52 +1,29 @@
 #!/bin/bash
 
-# Load german keyboard layout for the current session
-loadkeys de-latin1
+BASE_DIR=$(dirname "${BASH_SOURCE[0]}")
+CONFIGURATION_FILES_DIR=configuration_files
 
-# Update the system clock
-timedatectl set-ntp true
+cd $BASE_DIR
 
-source partitioning.sh
+source $BASE_DIR/functions/chroot.sh
+source $BASE_DIR/functions/locale.sh
+source $BASE_DIR/functions/mirrors.sh
+source $BASE_DIR/functions/mounts.sh
+source $BASE_DIR/functions/packages.sh
+source $BASE_DIR/functions/partitioning.sh
+source $BASE_DIR/functions/timedate.sh
 
-# Edit /etc/pacman.d/mirrorlist and select download mirrors
-# TODO
+setTimeZone "Europe/Berlin"
+enableNtp
 
-source packages.sh
-source mounts.sh
+partitionDisk
+updateMirrorlist
+strapBaseSystem
+generateInitialFstab
 
-# Change root into the new system
-arch-chroot /mnt
+prepareChrootSetup
+startChrootSetup
+cleanUpChrootSetup
 
-# Set German locale
-echo "de_DE.UTF-8 UTF-8" >> /etc/locale.gen
-locale-gen
-echo LANG=de_DE.UTF-8 > /etc/locale.conf
-
-# Set the hostname
-echo "arch01" > /etc/hostname
-
-# TODO patch /etc/hosts with new hostname
-
-# Add lvm2 hook to /etc/mkinitcpio.conf (before filesystem)
-# Set SDDM theme to breeze (/etc/sddm.conf) https://wiki.archlinux.org/index.php/SDDM#Theme_settings
-
-# Create a new initial RAM disk
-mkinitcpio -p linux
-
-# EDIT /etc/default/grub for right resolution
-
-# Configure boot loader
-grub-install --target=i386-pc /dev/sda
-grub-mkconfig -o /boot/grub/grub.cfg
-
-source users.sh
-source environment.sh
-source services.sh
-
-# Exit the chroot environment
-exit
-
-# Unmount the partitions
 umount -R /mnt
-
 reboot
