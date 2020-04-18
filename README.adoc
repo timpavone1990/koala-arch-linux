@@ -1,1 +1,3 @@
-= Koala Arch
+= Koala Arch Linux
+
+These scripts perform a customized installation of https://www.archlinux.org/[Arch Linux].
